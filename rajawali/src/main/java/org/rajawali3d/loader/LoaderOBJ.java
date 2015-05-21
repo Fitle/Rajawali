@@ -223,9 +223,15 @@ public class LoaderOBJ extends AMeshLoader {
 					texCoords.add(Float.parseFloat(parts.nextToken()));
                     texCoords.add(1f - Float.parseFloat(parts.nextToken()));
 				} else if(type.equals(NORMAL)) {
-					normals.add(Float.parseFloat(parts.nextToken()));
-                    normals.add(Float.parseFloat(parts.nextToken()));
-                    normals.add(Float.parseFloat(parts.nextToken()));
+					try {
+						normals.add(Float.parseFloat(parts.nextToken()));
+						normals.add(Float.parseFloat(parts.nextToken()));
+						normals.add(Float.parseFloat(parts.nextToken()));
+					} catch (NumberFormatException e){ // "-nan" in obj file
+						normals.add(0f);
+						normals.add(0f);
+						normals.add(0f);
+					}
 				} else if(type.equals(GROUP)) {
 					int numGroups = parts.countTokens();
 					Object3D previousGroup = null;
